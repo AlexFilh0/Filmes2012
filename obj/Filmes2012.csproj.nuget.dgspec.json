@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\filho\\OneDrive\\Área de Trabalho\\Univem\\Sistemas de Informacao\\Filmes2012\\Filmes2012.csproj": {}
+    "C:\\Users\\marce\\Filmes2012\\Filmes2012.csproj": {}
   },
   "projects": {
-    "C:\\Users\\filho\\OneDrive\\Área de Trabalho\\Univem\\Sistemas de Informacao\\Filmes2012\\Filmes2012.csproj": {
+    "C:\\Users\\marce\\Filmes2012\\Filmes2012.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\filho\\OneDrive\\Área de Trabalho\\Univem\\Sistemas de Informacao\\Filmes2012\\Filmes2012.csproj",
+        "projectUniqueName": "C:\\Users\\marce\\Filmes2012\\Filmes2012.csproj",
         "projectName": "Filmes2012",
-        "projectPath": "C:\\Users\\filho\\OneDrive\\Área de Trabalho\\Univem\\Sistemas de Informacao\\Filmes2012\\Filmes2012.csproj",
-        "packagesPath": "C:\\Users\\filho\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\filho\\OneDrive\\Área de Trabalho\\Univem\\Sistemas de Informacao\\Filmes2012\\obj\\",
+        "projectPath": "C:\\Users\\marce\\Filmes2012\\Filmes2012.csproj",
+        "packagesPath": "C:\\Users\\marce\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\marce\\Filmes2012\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\filho\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\marce\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -32,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -82,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
