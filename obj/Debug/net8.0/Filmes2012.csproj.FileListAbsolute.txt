@@ -275,3 +275,4 @@ C:\Users\filho\OneDrive\Área de Trabalho\Univem\Sistemas de Informacao\Filmes20
 C:\Users\filho\OneDrive\Área de Trabalho\Univem\Sistemas de Informacao\Filmes2012\obj\Debug\net8.0\Filmes2012.pdb
 C:\Users\filho\OneDrive\Área de Trabalho\Univem\Sistemas de Informacao\Filmes2012\obj\Debug\net8.0\Filmes2012.genruntimeconfig.cache
 C:\Users\filho\OneDrive\Área de Trabalho\Univem\Sistemas de Informacao\Filmes2012\obj\Debug\net8.0\ref\Filmes2012.dll
+C:\Users\filho\OneDrive\Área de Trabalho\Univem\Sistemas de Informacao\Filmes2012\obj\Debug\net8.0\Filmes2012.sourcelink.json
