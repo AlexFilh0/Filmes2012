@@ -10,36 +10,35 @@ using Filmes2012.Models;
 
 namespace Filmes2012.Controllers
 {
+    
     public class FilmesController : Controller
     {
+
+        Uri baseAddress = new Uri("http://localhost:5146/api");
+        private readonly HttpClient _httpclient;
+
         private readonly Filmes2012Context _context;
 
         public FilmesController(Filmes2012Context context)
         {
             _context = context;
+
+            _httpclient = new HttpClient();
         }
 
         // GET: Filmes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Filmes.ToListAsync());
+            var filmes = await _httpclient.GetFromJsonAsync<List<Filmes>>("http://localhost:5146/api/Filme/GetFilmes");
+            return View(filmes);
+
         }
+ 
 
         // GET: Filmes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var filmes = await _context.Filmes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (filmes == null)
-            {
-                return NotFound();
-            }
-
+            var filmes = await _httpclient.GetFromJsonAsync<Filmes>($"http://localhost:5146/api/Filme/GetFilme/{id}");
             return View(filmes);
         }
 
@@ -54,30 +53,35 @@ namespace Filmes2012.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Ano,Duracao,Genero,Bom")] Filmes filmes)
+        public async Task<IActionResult> Create(Filmes filme)
         {
             if (ModelState.IsValid)
+        {
+            // Enviar solicitação POST para a API para adicionar o novo filme
+            var response = await _httpclient.PostAsJsonAsync("http://localhost:5146/api/Filme/PostFilme", filme);
+
+            // Verificar se a solicitação foi bem-sucedida
+            if (response.IsSuccessStatusCode)
             {
-                _context.Add(filmes);
-                await _context.SaveChangesAsync();
+                // Redirecionar para a página de índice após adicionar o filme com sucesso
                 return RedirectToAction(nameof(Index));
             }
-            return View(filmes);
+            else
+            {
+                // Se a solicitação falhou, exibir uma mensagem de erro ou tratar de outra forma
+                ModelState.AddModelError(string.Empty, "Erro ao adicionar filme. Por favor, tente novamente.");
+                return View(filme);
+            }
         }
+
+        // Se o modelo não for válido, retornar a view de adicionar filme com os erros de validação
+        return View(filme);
+    }
 
         // GET: Filmes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var filmes = await _context.Filmes.FindAsync(id);
-            if (filmes == null)
-            {
-                return NotFound();
-            }
+            var filmes = await _httpclient.GetFromJsonAsync<Filmes>($"http://localhost:5146/api/Filme/GetFilme/{id}");
             return View(filmes);
         }
 
@@ -86,34 +90,24 @@ namespace Filmes2012.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Ano,Duracao,Genero,Bom")] Filmes filmes)
+        public async Task<IActionResult> Edit(Filmes filme)
         {
-            if (id != filmes.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                var response = await _httpclient.PutAsJsonAsync($"http://localhost:5146/api/Filme/PutFilme/{filme.Id}", filme);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    _context.Update(filmes);
-                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!FilmesExists(filmes.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError(string.Empty, "Erro ao atualizar filme. Por favor, tente novamente.");
+                    return View(filme); // ou return RedirectToAction(nameof(Index)); dependendo da lógica do seu aplicativo
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(filmes);
+
+            return View(filme);
         }
 
         // GET: Filmes/Delete/5
@@ -124,30 +118,35 @@ namespace Filmes2012.Controllers
                 return NotFound();
             }
 
-            var filmes = await _context.Filmes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (filmes == null)
+            var response = await _httpclient.GetAsync($"http://localhost:5146/api/Filme/GetFilme/{id}");
+
+            if (!response.IsSuccessStatusCode)
             {
                 return NotFound();
             }
 
-            return View(filmes);
+            var filme = await response.Content.ReadFromJsonAsync<Filmes>();
+            return View(filme);
         }
 
         // POST: Filmes/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var filmes = await _context.Filmes.FindAsync(id);
-            if (filmes != null)
-            {
-                _context.Filmes.Remove(filmes);
-            }
+            var response = await _httpclient.DeleteAsync($"http://localhost:5146/api/Filme/DeleteFilme/{id}");
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Erro ao excluir filme. Por favor, tente novamente.");
+                return View(); // ou return RedirectToAction(nameof(Index)); dependendo da lógica do seu aplicativo
+            }
+        }       
+
 
         private bool FilmesExists(int id)
         {

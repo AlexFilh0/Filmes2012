@@ -1,32 +1,47 @@
 using Microsoft.EntityFrameworkCore;
 using Filmes2012.Data;
+using Filmes2012.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Adiciona serviços ao contêiner.
+var connectionString = builder.Configuration.GetConnectionString("Filmes2012Context");
 builder.Services.AddDbContext<Filmes2012Context>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("Filmes2012Context")));
+    options.UseSqlite(connectionString));
 
-// Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
+
+// Configurar HttpClient com ignorar erros de certificado SSL (apenas para desenvolvimento)
+builder.Services.AddHttpClient<FilmesController>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:5146"); // Ajuste a URL conforme necessário
+})
+.ConfigurePrimaryHttpMessageHandler(() =>
+{
+    return new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+    };
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configura o pipeline de requisição HTTP.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
+
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapRazorPages();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 
 app.Run();

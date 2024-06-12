@@ -4,9 +4,9 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Review</h1>
 
-<h4>Review</h4>
+<h4>Nova</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -17,30 +17,34 @@
                 <input asp-for="Nota" class="form-control" />
                 <span asp-validation-for="Nota" class="text-danger"></span>
             </div>
+            <br>
             <div class="form-group">
                 <label asp-for="Comentario" class="control-label"></label>
                 <input asp-for="Comentario" class="form-control" />
                 <span asp-validation-for="Comentario" class="text-danger"></span>
             </div>
+            <br>
             <div class="form-group">
                 <label asp-for="IdUsuario" class="control-label"></label>
                 <input asp-for="IdUsuario" class="form-control" />
                 <span asp-validation-for="IdUsuario" class="text-danger"></span>
             </div>
+            <br>
             <div class="form-group">
                 <label asp-for="IdFilme" class="control-label"></label>
                 <input asp-for="IdFilme" class="form-control" />
                 <span asp-validation-for="IdFilme" class="text-danger"></span>
             </div>
+            <br>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Enviar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
+<br>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Voltar</a>
 </div>
 
 @section Scripts {
